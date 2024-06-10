@@ -1,0 +1,146 @@
+[
+  {
+    "name": "Catering",
+    "type": "expense",
+    "subcategories": [
+      "Breakfast",
+      "Lunch",
+      "Dinner",
+      "Snacks",
+      "Beverages",
+      "Fruits",
+      "Condiments",
+      "Ingredients",
+      "Others"
+    ]
+  },
+  {
+    "name": "Shopping",
+    "type": "expense",
+    "subcategories": [
+      "Clothing & Accessories",
+      "Skincare & Makeup",
+      "Electronics",
+      "Jewelry",
+      "Appliances",
+      "Stationery & Toys",
+      "Household Supplies",
+      "Others"
+    ]
+  },
+  {
+    "name": "Transportation",
+    "type": "expense",
+    "subcategories": [
+      "Taxi",
+      "Bus",
+      "Subway",
+      "Train",
+      "Flight",
+      "Bicycle",
+      "Car",
+      "Public Transport Card",
+      "Others"
+    ]
+  },
+  {
+    "name": "Utilities",
+    "type": "expense",
+    "subcategories": [
+      "Mobile Fee",
+      "Rent",
+      "Utility Bills",
+      "Salon Services",
+      "Courier Services",
+      "Internet",
+      "Laundry Services",
+      "Service Fees",
+      "Taxes",
+      "Tips",
+      "Others"
+    ]
+  },
+  {
+    "name": "Education",
+    "type": "expense",
+    "subcategories": [
+      "Tuition",
+      "Books & Supplies",
+      "Training Courses",
+      "Others"
+    ]
+  },
+  {
+    "name": "Health",
+    "type": "expense",
+    "subcategories": [
+      "Health Insurance",
+      "Hospital Bills",
+      "Clinic Visits",
+      "Medications",
+      "Others"
+    ]
+  },
+  {
+    "name": "Entertainment",
+    "type": "expense",
+    "subcategories": [
+      "Movies",
+      "Concerts",
+      "Gym",
+      "Video Games",
+      "Events",
+      "Subscriptions",
+      "Others"
+    ]
+  },
+  {
+    "name": "Travel",
+    "type": "expense",
+    "subcategories": [
+      "Dining Out",
+      "Shopping",
+      "Transportation",
+      "Accommodation",
+      "SIM Card",
+      "Tickets",
+      "Tours",
+      "Visa",
+      "Insurance",
+      "Others"
+    ]
+  },
+  {
+    "name": "Social",
+    "type": "expense",
+    "subcategories": ["Gifts", "Red Envelopes", "Others"]
+  },
+  {
+    "name": "Salary",
+    "type": "income"
+  },
+  {
+    "name": "Bonus",
+    "type": "income"
+  },
+  {
+    "name": "Provident Fund",
+    "type": "income"
+  },
+  {
+    "name": "Investment",
+    "type": "income"
+  },
+  {
+    "name": "Red Envelope",
+    "type": "income"
+  },
+  {
+    "name": "Part-Time Work",
+    "type": "income"
+  },
+  {
+    "name": "Idle Resale",
+    "type": "income"
+  }
+]

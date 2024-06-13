@@ -32,7 +32,7 @@ export const login = async (req, res) => {
 
   const token = createJWT({ uid: user._id });
 
-  const vaildTime = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+  const vaildTime = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000);
 
   res.cookie('token', token, {
     expires: vaildTime,

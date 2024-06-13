@@ -46,7 +46,6 @@ const Wrapper = styled.aside`
   .logo {
     display: block;
     margin: 0 auto;
-    width: 25%;
   }
 
   .nav__links {

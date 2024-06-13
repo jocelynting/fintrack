@@ -4,4 +4,6 @@ export { default as SubmitBtn } from './SubmitBtn.jsx';
 export { default as NavBar } from './NavBar.jsx';
 export { default as PopSidebar } from './PopSidebar.jsx';
 export { default as LeftSidebar } from './LeftSidebar.jsx';
-export { default as CategoryItem } from './CategoryItem.jsx';
+export { default as AddBill } from './AddBill.jsx';
+export { default as FormCategorySelect } from './FormCategorySelect.jsx';
+export { default as BillTypeSelection } from './BillTypeSelection.jsx';

@@ -6,5 +6,4 @@ export { default as Dashboard } from './Dashboard';
 export { default as Error } from './Error';
 export { default as Bills } from './Bills';
 export { default as Statistics } from './Statistics';
-export { default as Category } from './Category';
 export { default as Profile } from './Profile';

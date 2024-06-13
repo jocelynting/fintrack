@@ -9,7 +9,7 @@ const links = [
     path: '.',
     icon: <LiaMoneyCheckAltSolid />,
   },
-  { text: 'category', path: 'category', icon: <BiCategory /> },
+  // { text: 'category', path: 'category', icon: <BiCategory /> },
   { text: 'statistics', path: 'statistics', icon: <FaChartLine /> },
   { text: 'profile', path: 'profile', icon: <BiSolidUserAccount /> },
 ];

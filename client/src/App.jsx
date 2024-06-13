@@ -8,11 +8,11 @@ import {
   Error,
   Bills,
   Statistics,
-  Category,
   Profile,
 } from './pages';
 import { action as loginAction } from './pages/Login';
 import { action as registerAction } from './pages/Register';
+import { loader as categoryLoader } from './pages/Dashboard';
 
 const router = createBrowserRouter([
   {
@@ -37,6 +37,7 @@ const router = createBrowserRouter([
       {
         path: 'dashboard',
         element: <Dashboard />,
+        loader: categoryLoader,
         children: [
           {
             index: true,
@@ -45,10 +46,6 @@ const router = createBrowserRouter([
           {
             path: 'statistics',
             element: <Statistics />,
-          },
-          {
-            path: 'category',
-            element: <Category />,
           },
           {
             path: 'profile',

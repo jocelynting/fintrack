@@ -23,7 +23,6 @@ const Wrapper = styled.nav`
   .logo {
     display: flex;
     align-items: center;
-    width: 100%;
   }
 
   .nav__center-title {

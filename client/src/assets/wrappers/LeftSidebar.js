@@ -29,7 +29,6 @@ const Wrapper = styled.aside`
       height: var(--nav-height);
       display: block;
       margin: 0 auto;
-      width: 60%;
     }
 
     .nav__links {

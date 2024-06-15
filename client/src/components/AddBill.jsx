@@ -32,7 +32,7 @@ const AddBill = ({ visible, closeModal }) => {
           <div className="modal__content">
             <Logo />
             <Form method="post" className="bill__form">
-              <FormRow name="amount" type="text" />
+              <FormRow name="amount" type="number" />
               <FormRow
                 name="type"
                 labelText="Bill Type"

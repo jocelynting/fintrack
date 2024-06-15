@@ -7,3 +7,5 @@ export { default as LeftSidebar } from './LeftSidebar.jsx';
 export { default as AddBill } from './AddBill.jsx';
 export { default as FormCategorySelect } from './FormCategorySelect.jsx';
 export { default as BillTypeSelection } from './BillTypeSelection.jsx';
+export { default as BillSearch } from './BillSearch.jsx';
+export { default as BillTable } from './BillTable.jsx';

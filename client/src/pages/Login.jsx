@@ -1,5 +1,5 @@
 import { Form, Link, redirect, useActionData } from 'react-router-dom';
-import { Logo, FormRow, SubmitBtn } from '../components';
+import { Logo, LoginRegisterFormRow, SubmitBtn } from '../components';
 import Wrapper from '../assets/wrappers/RegisterAndLoginPage';
 import customFetch from '../utils/customFetch';
 import { toast } from 'react-toastify';
@@ -35,12 +35,12 @@ const Login = () => {
       <Form method="post" className="form">
         <Logo />
         <p className="form__title">Login</p>
-        <FormRow
+        <LoginRegisterFormRow
           name="email"
           type="text"
           error={actionData?.inputErrors?.email}
         />
-        <FormRow
+        <LoginRegisterFormRow
           name="password"
           type="password"
           error={actionData?.inputErrors?.password}

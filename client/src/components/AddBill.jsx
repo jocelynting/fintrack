@@ -1,14 +1,34 @@
-import { Form } from 'react-router-dom';
 import { useDashboardContext } from '../pages/Dashboard';
+import { useBillContext } from '../pages/Bills';
 import Wrapper from '../assets/wrappers/AddBill';
-import { Logo, FormRow, BillTypeSelection, SubmitBtn } from '../components';
-import { useState } from 'react';
+import {
+  Logo,
+  AddBillFormRow,
+  BillCategorySelect,
+  SubmitBtn,
+} from '../components';
+import { useState, useEffect } from 'react';
 
-const AddBill = ({ visible, closeModal }) => {
+const AddBill = ({ visible, closeModal, submitForm }) => {
   const { categories } = useDashboardContext();
+  const { billFormData, updateBillFormData } = useBillContext();
 
   const [billType, setBillType] = useState('expense');
   const [selectedCategory, setSelectedCategory] = useState(categories[0]);
+  const [selectedSubcategory, setSelectedSubcategory] = useState('');
+
+  useEffect(() => {
+    updateBillFormData((prevFormData) => ({
+      ...prevFormData,
+      category: selectedCategory._id,
+    }));
+    if (selectedCategory.subcategories.length > 0) {
+      updateBillFormData((prevFormData) => ({
+        ...prevFormData,
+        subcategory: selectedCategory.subcategories[0]._id,
+      }));
+    }
+  }, []);
 
   const handleBillTypeChange = (e) => {
     setBillType(e.target.value);
@@ -25,15 +45,54 @@ const AddBill = ({ visible, closeModal }) => {
     setSelectedCategory(selectedCategoryObject);
   };
 
+  const handleSubcategoryChange = (e) => {
+    setSelectedSubcategory(e.target.value);
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+
+    if (!billFormData.amount) {
+      updateBillFormData((prevFormData) => ({
+        ...prevFormData,
+        errors: { ...prevFormData.errors, amount: 'Amount is required' },
+      }));
+      return;
+    }
+
+    if (isNaN(billFormData.amount)) {
+      updateBillFormData((prevFormData) => ({
+        ...prevFormData,
+        errors: { ...prevFormData.errors, amount: 'Amount must be a number' },
+      }));
+      return;
+    }
+
+    updateBillFormData((prevFormData) => ({
+      ...prevFormData,
+      errors: {},
+    }));
+
+    let { errors, ...formData } = billFormData;
+
+    submitForm(e, formData);
+
+    closeModal();
+  };
+
   return (
     <Wrapper>
       {visible && (
         <div className="modal__background">
           <div className="modal__content">
             <Logo />
-            <Form method="post" className="bill__form">
-              <FormRow name="amount" type="number" />
-              <FormRow
+            <form className="bill__form" onSubmit={handleFormSubmit}>
+              <AddBillFormRow
+                name="amount"
+                type="text"
+                error={billFormData.errors.amount}
+              />
+              <AddBillFormRow
                 name="type"
                 labelText="Bill Type"
                 onChange={handleBillTypeChange}
@@ -42,14 +101,31 @@ const AddBill = ({ visible, closeModal }) => {
                   { value: 'income', label: 'Income' },
                 ]}
               />
-              <BillTypeSelection
-                type={billType}
-                selectedCategory={selectedCategory}
-                categories={categories}
-                handleCategoryChange={handleCategoryChange}
+              <div className="form__row-category">
+                <BillCategorySelect
+                  name="category"
+                  labelText="Category"
+                  categories={categories.filter(
+                    (category) => category.type === billType
+                  )}
+                  onChange={handleCategoryChange}
+                  showLabel={true}
+                />
+                {billType === 'expense' && (
+                  <BillCategorySelect
+                    name="subcategory"
+                    categories={selectedCategory.subcategories}
+                    showLabel={false}
+                    onChange={handleSubcategoryChange}
+                  />
+                )}
+              </div>
+              <AddBillFormRow name="description" type="text" />
+              <AddBillFormRow
+                name="createdAt"
+                type="date"
+                defaultValue={new Date().toLocaleDateString('fr-CA')}
               />
-              <FormRow name="description" type="text" />
-              <FormRow name="date" type="date" />
               <div className="form__buttons">
                 <SubmitBtn formBtn />
                 <button
@@ -60,7 +136,7 @@ const AddBill = ({ visible, closeModal }) => {
                   Cancel
                 </button>
               </div>
-            </Form>
+            </form>
           </div>
         </div>
       )}

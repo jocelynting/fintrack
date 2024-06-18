@@ -3,7 +3,7 @@ import 'react-date-picker/dist/DatePicker.css';
 import 'react-calendar/dist/Calendar.css';
 import './CustomDatePicker.css';
 import Wrapper from '../assets/wrappers/BillSearch';
-import FormSelect from './FormSelect';
+import BillSearchFormSelect from './BillSearchFormSelect';
 import { useState, useEffect } from 'react';
 import { useDashboardContext } from '../pages/Dashboard';
 
@@ -78,7 +78,7 @@ const BillSearch = () => {
   return (
     <Wrapper>
       <div className="search__time">
-        <FormSelect
+        <BillSearchFormSelect
           name="timeType"
           options={[{ name: 'All' }, { name: 'Month' }, { name: 'Year' }]}
           value="Month"
@@ -93,14 +93,14 @@ const BillSearch = () => {
         />
       </div>
       <div className="search__category">
-        <FormSelect
+        <BillSearchFormSelect
           name="type"
           value={billType}
           onChange={handleBillTypeChange}
           options={[{ name: 'All' }, { name: 'Expense' }, { name: 'Income' }]}
         />
         {billType !== 'all' && (
-          <FormSelect
+          <BillSearchFormSelect
             name="category"
             value={category}
             onChange={handleCategoryChange}
@@ -108,7 +108,7 @@ const BillSearch = () => {
           />
         )}
         {billType === 'expense' && category && (
-          <FormSelect
+          <BillSearchFormSelect
             name="subcategory"
             value={subcategory}
             onChange={handleSubcategoryChange}

@@ -1,4 +1,6 @@
-const FormRow = ({
+import { useBillContext } from '../pages/Bills';
+
+const AddBillFormRow = ({
   type,
   name,
   labelText,
@@ -7,6 +9,15 @@ const FormRow = ({
   radioOptions,
   onChange,
 }) => {
+  const { updateBillFormData } = useBillContext();
+
+  const handleInputChange = (e) => {
+    updateBillFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: e.target.value,
+    }));
+  };
+
   if (radioOptions) {
     return (
       <div className="form__row-radio" onChange={onChange}>
@@ -19,6 +30,7 @@ const FormRow = ({
                 value={option.value}
                 name={name}
                 defaultChecked={option.checked}
+                onChange={handleInputChange}
               />
               <label className="form__label--radio">{option.label}</label>
             </div>
@@ -39,10 +51,11 @@ const FormRow = ({
         name={name}
         id={name}
         defaultValue={defaultValue || ''}
+        onChange={handleInputChange}
       />
       {error && <span className="form__error-message">{error}</span>}
     </div>
   );
 };
 
-export default FormRow;
+export default AddBillFormRow;

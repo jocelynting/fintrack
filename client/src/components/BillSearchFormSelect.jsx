@@ -1,4 +1,4 @@
-const FormSelect = ({ name, onChange, options, value }) => {
+const BillSearchFormSelect = ({ name, onChange, options, value }) => {
   return (
     <select
       className="form__select"
@@ -16,4 +16,4 @@ const FormSelect = ({ name, onChange, options, value }) => {
   );
 };
 
-export default FormSelect;
+export default BillSearchFormSelect;

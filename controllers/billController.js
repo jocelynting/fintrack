@@ -5,7 +5,9 @@ import { BILL_TYPE } from '../utils/constants.js';
 export const getAllBills = async (req, res) => {
   const { user } = req;
 
-  const bills = await Bill.find({ user: user.uid });
+  const bills = await Bill.find({ user: user.uid })
+    .populate('category')
+    .populate('subcategory');
 
   res.status(StatusCodes.OK).json({ bills });
 };

@@ -1,4 +1,4 @@
-import { AddBill, BillSearch, BillTable } from '../components';
+import { BillForm, BillSearch, BillTable } from '../components';
 import { useState, useContext, createContext } from 'react';
 import { useLoaderData } from 'react-router-dom';
 import customFetch from '../utils/customFetch';
@@ -14,10 +14,15 @@ export const loader = async () => {
   }
 };
 
-export const action = async ({ data }) => {
+export const action = async ({ data, source }) => {
   try {
-    await customFetch.post('/bills', data);
-    toast.success('Add a new bill');
+    if (source === 'create') {
+      await customFetch.post('/bills', data);
+      toast.success('Add a new bill');
+    } else {
+      await customFetch.patch(`/bills/${data.id}`, data);
+      toast.success('Update bill success');
+    }
     return redirect('/dashboard');
   } catch (error) {
     toast.error(error?.response?.data?.msg);
@@ -28,45 +33,55 @@ export const action = async ({ data }) => {
 const BillContext = createContext();
 
 const Bills = () => {
-  const [addBillVisible, setAddBillVisible] = useState(false);
-  const [billFormData, setBillFormData] = useState({
+  const [billFormVisible, setBillFormVisible] = useState({
+    visible: false,
+    source: '',
+  });
+
+  const initialBillFormData = {
+    id: '',
     amount: '',
     type: 'expense',
     category: '',
     subcategory: '',
     description: '',
-    date: new Date().toISOString().slice(0, 10),
+    date: 'today',
     errors: {},
-  });
+  };
+
+  const [billFormData, setBillFormData] = useState(initialBillFormData);
 
   const updateBillFormData = (updatedFormData) => {
     setBillFormData((oldForm) => updatedFormData(oldForm));
   };
 
-  const handleBillSubmit = (event, data) => {
+  const handleBillSubmit = (event, data, source) => {
     event.preventDefault();
     console.log('add bill form', data);
-    action({ data });
+    action({ data, source });
   };
 
-  const openModal = () => {
-    setAddBillVisible(true);
+  const openModal = ({ source }) => {
+    setBillFormVisible({ visible: true, source: source });
   };
 
   const closeModal = () => {
-    setAddBillVisible(false);
+    setBillFormVisible({ visible: false, source: '' });
+    setBillFormData(initialBillFormData);
   };
 
   const { bills } = useLoaderData();
 
   return (
-    <BillContext.Provider value={{ billFormData, updateBillFormData }}>
+    <BillContext.Provider
+      value={{ billFormData, updateBillFormData, openModal }}
+    >
       <div>
-        <button className="btn" onClick={openModal}>
+        <button className="btn" onClick={() => openModal({ source: 'create' })}>
           Add Bill
         </button>
-        <AddBill
-          visible={addBillVisible}
+        <BillForm
+          status={billFormVisible}
           closeModal={closeModal}
           submitForm={handleBillSubmit}
         />

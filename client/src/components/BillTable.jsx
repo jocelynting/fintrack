@@ -1,11 +1,26 @@
 import Wrapper from '../assets/wrappers/BillTable';
 import { CiEdit } from 'react-icons/ci';
 import { MdOutlineDeleteSweep } from 'react-icons/md';
+import { useBillContext } from '../pages/Bills';
 
 const BillTable = ({ bills }) => {
-  const handleEdit = (id) => {};
+  const { openModal, updateBillFormData } = useBillContext();
 
-  const handleDelete = (id) => {};
+  const handleBillEdit = (bill) => {
+    updateBillFormData((prevFormData) => ({
+      ...prevFormData,
+      id: bill._id,
+      amount: bill.amount,
+      type: bill.type,
+      category: bill.category._id,
+      subcategory: bill.subcategory && bill.subcategory._id,
+      description: bill.description,
+      date: bill.createAt,
+    }));
+    openModal({ source: 'update' });
+  };
+
+  const handleBillDelete = (bill) => {};
 
   const dates = [];
 
@@ -55,13 +70,13 @@ const BillTable = ({ bills }) => {
                   <td className="table__btn-groups">
                     <button
                       className="table__btn"
-                      onClick={() => handleEdit(bill._id)}
+                      onClick={() => handleBillEdit(bill)}
                     >
                       <CiEdit />
                     </button>
                     <button
                       className="table__btn"
-                      onClick={() => handleDelete(bill._id)}
+                      onClick={() => handleBillDelete(bill)}
                     >
                       <MdOutlineDeleteSweep />
                     </button>
@@ -82,13 +97,13 @@ const BillTable = ({ bills }) => {
                   <td className="table__btn-groups">
                     <button
                       className="table__btn"
-                      onClick={() => handleEdit(bill._id)}
+                      onClick={() => handleBillEdit(bill)}
                     >
                       <CiEdit />
                     </button>
                     <button
                       className="table__btn"
-                      onClick={() => handleDelete(bill._id)}
+                      onClick={() => handleBillDelete(bill)}
                     >
                       <MdOutlineDeleteSweep />
                     </button>

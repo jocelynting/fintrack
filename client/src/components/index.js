@@ -1,11 +1,11 @@
 export { default as Logo } from './Logo.jsx';
 export { default as LoginRegisterFormRow } from './LoginRegisterFormRow.jsx';
-export { default as AddBillFormRow } from './AddBillFormRow.jsx';
+export { default as BillFormRow } from './BillFormRow.jsx';
 export { default as SubmitBtn } from './SubmitBtn.jsx';
 export { default as NavBar } from './NavBar.jsx';
 export { default as PopSidebar } from './PopSidebar.jsx';
 export { default as LeftSidebar } from './LeftSidebar.jsx';
-export { default as AddBill } from './AddBill.jsx';
+export { default as BillForm } from './BillForm.jsx';
 export { default as BillCategorySelect } from './BillCategorySelect.jsx';
 export { default as BillSearch } from './BillSearch.jsx';
 export { default as BillTable } from './BillTable.jsx';

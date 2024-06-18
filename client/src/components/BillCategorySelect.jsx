@@ -6,6 +6,7 @@ const BillCategorySelect = ({
   categories,
   onChange,
   showLabel,
+  defaultValue,
 }) => {
   const { updateBillFormData } = useBillContext();
 
@@ -31,6 +32,7 @@ const BillCategorySelect = ({
         name={name}
         id={name}
         onChange={handleInputChange}
+        value={defaultValue || ''}
       >
         {categories.map((category) => (
           <option

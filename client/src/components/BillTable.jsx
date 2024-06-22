@@ -3,7 +3,7 @@ import { CiEdit } from 'react-icons/ci';
 import { MdOutlineDeleteSweep } from 'react-icons/md';
 import { useBillContext } from '../pages/Bills';
 
-const BillTable = ({ bills }) => {
+const BillTable = ({ bills, onDelete }) => {
   const { openModal, updateBillFormData } = useBillContext();
 
   const handleBillEdit = (bill) => {
@@ -20,9 +20,39 @@ const BillTable = ({ bills }) => {
     openModal({ source: 'update' });
   };
 
-  const handleBillDelete = (bill) => {};
+  const handleBillDelete = (bill) => {
+    onDelete(bill, 'delete');
+  };
 
   const dates = [];
+
+  const renderBillRow = (bill) => {
+    const billDate = new Date(bill.createAt);
+    const time = billDate.toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    });
+
+    return (
+      <tr className="table__row" key={bill._id}>
+        <td>{time}</td>
+        <td>${bill.amount}</td>
+        <td>
+          {bill.type === 'expense' ? bill.subcategory.name : bill.category.name}
+        </td>
+        <td>{bill.description}</td>
+        <td className="table__btn-groups">
+          <button className="table__btn" onClick={() => handleBillEdit(bill)}>
+            <CiEdit />
+          </button>
+          <button className="table__btn" onClick={() => handleBillDelete(bill)}>
+            <MdOutlineDeleteSweep />
+          </button>
+        </td>
+      </tr>
+    );
+  };
 
   return (
     <Wrapper>
@@ -45,11 +75,7 @@ const BillTable = ({ bills }) => {
               billDate.getMonth(),
               billDate.getDate()
             ).toLocaleDateString();
-            const time = billDate.toLocaleTimeString('en-US', {
-              hour: '2-digit',
-              minute: '2-digit',
-              hour12: false,
-            });
+
             if (!dates.includes(date)) {
               dates.push(date);
               return acc.concat([
@@ -58,58 +84,10 @@ const BillTable = ({ bills }) => {
                     {date}
                   </td>
                 </tr>,
-                <tr className="table__row" key={bill._id}>
-                  <td>{time}</td>
-                  <td>${bill.amount}</td>
-                  <td>
-                    {bill.type === 'expense'
-                      ? bill.subcategory.name
-                      : bill.category.name}
-                  </td>
-                  <td>{bill.description}</td>
-                  <td className="table__btn-groups">
-                    <button
-                      className="table__btn"
-                      onClick={() => handleBillEdit(bill)}
-                    >
-                      <CiEdit />
-                    </button>
-                    <button
-                      className="table__btn"
-                      onClick={() => handleBillDelete(bill)}
-                    >
-                      <MdOutlineDeleteSweep />
-                    </button>
-                  </td>
-                </tr>,
+                renderBillRow(bill),
               ]);
             } else {
-              return acc.concat([
-                <tr className="table__row" key={bill._id}>
-                  <td>{time}</td>
-                  <td>${bill.amount}</td>
-                  <td>
-                    {bill.type === 'expense'
-                      ? bill.subcategory.name
-                      : bill.category.name}
-                  </td>
-                  <td>{bill.description}</td>
-                  <td className="table__btn-groups">
-                    <button
-                      className="table__btn"
-                      onClick={() => handleBillEdit(bill)}
-                    >
-                      <CiEdit />
-                    </button>
-                    <button
-                      className="table__btn"
-                      onClick={() => handleBillDelete(bill)}
-                    >
-                      <MdOutlineDeleteSweep />
-                    </button>
-                  </td>
-                </tr>,
-              ]);
+              return acc.concat([renderBillRow(bill)]);
             }
           }, [])}
       </tbody>

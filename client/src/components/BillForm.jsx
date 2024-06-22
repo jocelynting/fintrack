@@ -90,7 +90,7 @@ const BillForm = ({ status, closeModal, submitForm }) => {
 
     let { errors, ...formData } = billFormData;
 
-    submitForm(e, formData);
+    submitForm(e, formData, status.source);
 
     closeModal();
   };

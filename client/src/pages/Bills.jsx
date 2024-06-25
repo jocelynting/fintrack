@@ -1,12 +1,14 @@
 import { BillForm, BillSearch, BillTable } from '../components';
-import { useState, useContext, createContext } from 'react';
+import { useState, useEffect, useContext, createContext } from 'react';
 import { useLoaderData, useNavigate, redirect } from 'react-router-dom';
 import customFetch from '../utils/customFetch';
 import { toast } from 'react-toastify';
+import { FETCH_TYPE } from '../utils/utils';
 
-export const loader = async () => {
+export const loader = async ({ params }) => {
   try {
-    const { data } = await customFetch.get('/bills');
+    const query = params ? new URLSearchParams(params).toString() : '';
+    const { data } = await customFetch.get(`/bills?${query}`);
     return data;
   } catch (error) {
     toast.error(error?.response?.data?.msg);
@@ -16,13 +18,13 @@ export const loader = async () => {
 
 export const action = async ({ data, source, navigate }) => {
   try {
-    if (source === 'create') {
+    if (source === FETCH_TYPE.CREATE) {
       await customFetch.post('/bills', data);
       toast.success('Add a new bill');
-    } else if (source === 'update') {
+    } else if (source === FETCH_TYPE.UPDATE) {
       await customFetch.patch(`/bills/${data.id}`, data);
       toast.success('Update bill success');
-    } else if (source === 'delete') {
+    } else if (source === FETCH_TYPE.DELETE) {
       await customFetch.delete(`/bills/${data._id}`, data);
       toast.success('Delete bill success');
     }
@@ -79,15 +81,26 @@ const Bills = () => {
     setBillFormData(initialBillFormData);
   };
 
-  const { bills } = useLoaderData();
+  const loaderData = useLoaderData();
+  const [bills, setBills] = useState(loaderData.bills);
   const navigate = useNavigate();
+
+  const handleSearch = async (searchInfo) => {
+    const data = await loader({ params: searchInfo });
+    setBills(data.bills);
+  };
+
+  useEffect(() => {}, [bills]);
 
   return (
     <BillContext.Provider
       value={{ billFormData, updateBillFormData, openModal }}
     >
       <div>
-        <button className="btn" onClick={() => openModal({ source: 'create' })}>
+        <button
+          className="btn"
+          onClick={() => openModal({ source: FETCH_TYPE.CREATE })}
+        >
           Add Bill
         </button>
         <BillForm
@@ -95,7 +108,7 @@ const Bills = () => {
           closeModal={closeModal}
           submitForm={handleBillSubmit}
         />
-        <BillSearch />
+        <BillSearch onSearch={handleSearch} />
         <BillTable bills={bills} onDelete={handleBillDelete} />
       </div>
     </BillContext.Provider>

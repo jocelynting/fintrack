@@ -2,6 +2,7 @@ import Wrapper from '../assets/wrappers/BillTable';
 import { CiEdit } from 'react-icons/ci';
 import { MdOutlineDeleteSweep } from 'react-icons/md';
 import { useBillContext } from '../pages/Bills';
+import { FETCH_TYPE } from '../utils/utils';
 
 const BillTable = ({ bills, onDelete }) => {
   const { openModal, updateBillFormData } = useBillContext();
@@ -17,11 +18,11 @@ const BillTable = ({ bills, onDelete }) => {
       description: bill.description,
       date: bill.createAt,
     }));
-    openModal({ source: 'update' });
+    openModal({ source: FETCH_TYPE.UPDATE });
   };
 
   const handleBillDelete = (bill) => {
-    onDelete(bill, 'delete');
+    onDelete(bill, FETCH_TYPE.DELETE);
   };
 
   const dates = [];

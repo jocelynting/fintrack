@@ -1,4 +1,4 @@
-const BillSearchFormSelect = ({ name, onChange, options, value }) => {
+const BillSearchFormSelect = ({ name, onChange, options, showName, value }) => {
   return (
     <select
       className="form__select"
@@ -8,7 +8,7 @@ const BillSearchFormSelect = ({ name, onChange, options, value }) => {
       value={value}
     >
       {options.map((option) => (
-        <option value={option.name} key={option.name}>
+        <option value={showName ? option.name : option._id} key={option.name}>
           {option.name}
         </option>
       ))}

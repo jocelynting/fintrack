@@ -3,6 +3,7 @@ import { useBillContext } from '../pages/Bills';
 import Wrapper from '../assets/wrappers/AddBill';
 import { Logo, BillFormRow, BillCategorySelect, SubmitBtn } from '.';
 import { useState, useEffect } from 'react';
+import { FETCH_TYPE } from '../utils/utils';
 
 const BillForm = ({ status, closeModal, submitForm }) => {
   const { categories } = useDashboardContext();
@@ -162,7 +163,7 @@ const BillForm = ({ status, closeModal, submitForm }) => {
               />
               <div className="form__buttons">
                 <SubmitBtn
-                  name={status.source === 'update' ? 'Update' : ''}
+                  name={status.source === FETCH_TYPE.UPDATE ? 'Update' : ''}
                   formBtn
                 />
                 <button

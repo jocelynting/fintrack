@@ -1,4 +1,6 @@
 import { BillForm, BillSearch, BillTable } from '../components';
+import Wrapper from '../assets/wrappers/Bills';
+import NoData from '../assets/images/no-data.svg';
 import { useState, useEffect, useContext, createContext } from 'react';
 import { useLoaderData, useNavigate, redirect } from 'react-router-dom';
 import customFetch from '../utils/customFetch';
@@ -96,7 +98,7 @@ const Bills = () => {
     <BillContext.Provider
       value={{ billFormData, updateBillFormData, openModal }}
     >
-      <div>
+      <Wrapper>
         <button
           className="btn"
           onClick={() => openModal({ source: FETCH_TYPE.CREATE })}
@@ -109,8 +111,19 @@ const Bills = () => {
           submitForm={handleBillSubmit}
         />
         <BillSearch onSearch={handleSearch} />
-        <BillTable bills={bills} onDelete={handleBillDelete} />
-      </div>
+        {bills.length === 0 ? (
+          // If there are no bills, display the following message
+          <div className="bill__table-nodata">
+            <img className="nodata__image" src={NoData} alt="not found" />
+            <p className="nodata__content">
+              Oops! There is no data found. Please add a new bill to get
+              started.
+            </p>
+          </div>
+        ) : (
+          <BillTable bills={bills} onDelete={handleBillDelete} />
+        )}
+      </Wrapper>
     </BillContext.Provider>
   );
 };

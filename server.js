@@ -14,6 +14,7 @@ import path from 'path';
 import authRouter from './routers/authRouter.js';
 import categoryRouter from './routers/categoryRouter.js';
 import billRouter from './routers/billRouter.js';
+import userRouter from './routers/userRouter.js';
 
 // middleware
 import errorHandlerMiddleware from './middleware/errorHandlerMiddleware.js';
@@ -37,6 +38,7 @@ app.use(cookieParser());
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/categories', authenticateUser, categoryRouter);
 app.use('/api/v1/bills', authenticateUser, billRouter);
+app.use('/api/v1/users', authenticateUser, userRouter);
 
 app.use(errorHandlerMiddleware);
 

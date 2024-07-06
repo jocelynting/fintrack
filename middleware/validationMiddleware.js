@@ -67,3 +67,18 @@ export const validateBillID = validateErrors([
     if (!bill) throw new NotFoundError(`no bill with id : ${value}`);
   }),
 ]);
+
+export const validateUpdateUserInput = validateErrors([
+  body('name').notEmpty().withMessage('name is required'),
+  body('email')
+    .notEmpty()
+    .withMessage('email is required')
+    .isEmail()
+    .withMessage('invalid email format')
+    .custom(async (email, { req }) => {
+      const user = await User.findOne({ email });
+      if (user && user._id.toString() !== req.user.uid) {
+        throw new Error('email already exists');
+      }
+    }),
+]);

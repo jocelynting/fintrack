@@ -12,7 +12,16 @@ import { toast } from 'react-toastify';
 
 export const loader = async () => {
   try {
-    const { data } = await customFetch.get('/categories');
+    const [categories, user] = await Promise.all([
+      customFetch.get('/categories'),
+      customFetch.get('/users/current-user'),
+    ]);
+
+    const data = {
+      categories: categories.data.categories,
+      user: user.data.user,
+    };
+
     return data;
   } catch (error) {
     toast.error(error?.response?.data?.msg);
@@ -28,11 +37,11 @@ const Dashboard = () => {
   const [showSidebar, setShowSidebar] = useState(false);
   const toggleSidebar = () => setShowSidebar(!showSidebar);
 
-  const { categories } = useLoaderData();
+  const { categories, user } = useLoaderData();
 
   return (
     <DashboardContext.Provider
-      value={{ showSidebar, toggleSidebar, categories }}
+      value={{ showSidebar, toggleSidebar, categories, user }}
     >
       <Wrapper>
         <main className="dashboard">

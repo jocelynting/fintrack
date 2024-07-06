@@ -5,7 +5,7 @@ const Wrapper = styled.table`
   padding: 1rem 0rem;
 
   .table__header {
-    background-color: var(--primary-700);
+    background-color: var(--primary-500);
     color: var(--white);
     th {
       padding: 8px 5px;
@@ -20,7 +20,7 @@ const Wrapper = styled.table`
   }
 
   .table__row:nth-child(even) {
-    background-color: var(--primary-200);
+    background-color: var(--primary-100);
   }
 
   td {

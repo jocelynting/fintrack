@@ -9,8 +9,8 @@ import { useDashboardContext } from '../pages/Dashboard';
 const BillSearch = ({ onSearch }) => {
   const [searchInfo, setSearchInfo] = useState({
     date: new Date(),
-    calendarType: 'month',
-    billType: 'all',
+    calendar: 'month',
+    type: 'all',
     category: '',
     subcategory: '',
   });
@@ -18,7 +18,7 @@ const BillSearch = ({ onSearch }) => {
   const { categories } = useDashboardContext();
 
   useEffect(() => {
-    if (searchInfo.billType === 'expense') {
+    if (searchInfo.type === 'expense') {
       const filteredCategories = categories.filter(
         (category) => category.type === 'expense'
       );
@@ -32,7 +32,7 @@ const BillSearch = ({ onSearch }) => {
         category: initialCategory,
         subcategory: filteredSubcategories[0]?._id || '',
       }));
-    } else if (searchInfo.billType === 'income') {
+    } else if (searchInfo.type === 'income') {
       const filteredIncomeCategories = categories.filter(
         (category) => category.type === 'income'
       );
@@ -43,13 +43,13 @@ const BillSearch = ({ onSearch }) => {
         subcategory: '',
       }));
     }
-  }, [searchInfo.billType, categories]);
+  }, [searchInfo.type, categories]);
 
   const handleCalenderTypeChange = (e) => {
     const value = e.target.value;
     setSearchInfo((prevSearchInfo) => ({
       ...prevSearchInfo,
-      calendarType: value,
+      calendar: value,
     }));
   };
 
@@ -65,7 +65,7 @@ const BillSearch = ({ onSearch }) => {
     const value = e.target.value;
     setSearchInfo((prevSearchInfo) => ({
       ...prevSearchInfo,
-      billType: value,
+      type: value,
     }));
   };
 
@@ -98,7 +98,7 @@ const BillSearch = ({ onSearch }) => {
   };
 
   const filteredCategories = categories.filter(
-    (category) => category.type === searchInfo.billType
+    (category) => category.type === searchInfo.type
   );
 
   const filteredSubcategories = categories.find(
@@ -113,18 +113,18 @@ const BillSearch = ({ onSearch }) => {
     <Wrapper>
       <div className="search__time">
         <BillSearchFormSelect
-          name="timeType"
+          name="calendar"
           options={[{ name: 'month' }, { name: 'year' }]}
           showName={true}
-          value={searchInfo.calendarType}
+          value={searchInfo.calendar}
           onChange={handleCalenderTypeChange}
         />
         <DatePicker
           onChange={handleDateChange}
           value={searchInfo.date}
-          maxDetail={searchInfo.calendarType === 'year' ? 'decade' : 'year'}
-          format={searchInfo.calendarType === 'year' ? 'yyyy' : 'yyyy-MM'}
-          view={searchInfo.calendarType === 'year' ? 'decade' : 'year'}
+          maxDetail={searchInfo.calendar === 'year' ? 'decade' : 'year'}
+          format={searchInfo.calendar === 'year' ? 'yyyy' : 'yyyy-MM'}
+          view={searchInfo.calendar === 'year' ? 'decade' : 'year'}
           locale="en-US"
         />
       </div>
@@ -133,10 +133,10 @@ const BillSearch = ({ onSearch }) => {
           name="type"
           options={[{ name: 'all' }, { name: 'expense' }, { name: 'income' }]}
           showName={true}
-          value={searchInfo.billType}
+          value={searchInfo.type}
           onChange={handleBillTypeChange}
         />
-        {searchInfo.billType !== 'all' && (
+        {searchInfo.type !== 'all' && (
           <BillSearchFormSelect
             name="category"
             value={searchInfo.category}
@@ -144,7 +144,7 @@ const BillSearch = ({ onSearch }) => {
             options={filteredCategories}
           />
         )}
-        {searchInfo.billType === 'expense' && searchInfo.category && (
+        {searchInfo.type === 'expense' && searchInfo.category && (
           <BillSearchFormSelect
             name="subcategory"
             value={searchInfo.subcategory}

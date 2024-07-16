@@ -16,12 +16,12 @@ const router = Router();
 
 router.route('/').get(getAllBills).post(validateBillInput, createBill);
 
+router.route('/statistics').get(getBillStatistics);
+
 router
   .route('/:id')
   .get(validateBillID, getBill)
   .patch(validateBillInput, validateBillID, updateBill)
   .delete(validateBillID, deleteBill);
-
-router.route('/statistics').post(getBillStatistics);
 
 export default router;

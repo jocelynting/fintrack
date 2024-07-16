@@ -1,15 +1,15 @@
 import { StatusCodes } from 'http-status-codes';
 import Bill from '../models/Bill.js';
-import { BILL_TYPE } from '../utils/constants.js';
+import { BILL_TYPE, STATISTICS_SEARCH_TYPE } from '../utils/constants.js';
 import { getDatePeriod } from '../utils/dateUtils.js';
 import mongoose from 'mongoose';
 
 export const getAllBills = async (req, res) => {
   const { user } = req;
-  const { date, calendarType, billType, category, subcategory, description } =
+  const { date, calendar, type, category, subcategory, description } =
     req.query;
 
-  const { startDate, endDate } = getDatePeriod(date, calendarType);
+  const { startDate, endDate } = getDatePeriod(date, calendar);
 
   const query = { user: user.uid };
 
@@ -17,8 +17,8 @@ export const getAllBills = async (req, res) => {
     query.createAt = { $gte: startDate, $lte: endDate };
   }
 
-  if (billType && billType !== 'all') {
-    query.type = billType;
+  if (type && type !== 'all') {
+    query.type = type;
     if (category) {
       query.category = category;
     }
@@ -85,27 +85,27 @@ export const deleteBill = async (req, res) => {
 
 export const getBillStatistics = async (req, res) => {
   const { user } = req;
-  const { date, calendarType, type } = req.body;
+  const { date, calendar, type } = req.query;
 
-  const { startDate, endDate } = getDatePeriod(date, calendarType);
+  const { startDate, endDate } = getDatePeriod(date, calendar);
 
   let pipelineInfo = {};
 
-  if (type === 1) {
+  if (type === STATISTICS_SEARCH_TYPE.EXPENSE_CATEGORY) {
     pipelineInfo = {
       type: 'expense',
       _id: 'category',
       collection: 'categories',
       as: 'categoryInfo',
     };
-  } else if (type === 2) {
+  } else if (type === STATISTICS_SEARCH_TYPE.INCOME_CATEGORY) {
     pipelineInfo = {
       type: 'income',
       _id: 'category',
       collection: 'categories',
       as: 'categoryInfo',
     };
-  } else if (type === 3) {
+  } else if (type === STATISTICS_SEARCH_TYPE.EXPENSE_SUBCATEGORY) {
     pipelineInfo = {
       type: 'expense',
       _id: 'subcategory',
@@ -123,7 +123,7 @@ export const getBillStatistics = async (req, res) => {
       },
     },
     {
-      $group: { _id: '$' + pipelineInfo._id, totalAmount: { $sum: '$amount' } },
+      $group: { _id: '$' + pipelineInfo._id, total: { $sum: '$amount' } },
     },
     {
       $lookup: {
@@ -134,10 +134,17 @@ export const getBillStatistics = async (req, res) => {
       },
     },
     { $unwind: '$' + pipelineInfo.as },
-    { $project: { _id: `$${pipelineInfo.as}.name`, totalAmount: true } },
+    { $project: { category: `$${pipelineInfo.as}.name`, total: true } },
   ];
 
-  const statistics = await Bill.aggregate(pipeline);
+  const results = await Bill.aggregate(pipeline);
+
+  const sum = results.reduce((acc, curr) => acc + curr.total, 0);
+
+  const statistics = results.map((item) => ({
+    ...item,
+    percentage: ((item.total / sum) * 100).toFixed(2) + '%',
+  }));
 
   res.status(StatusCodes.OK).json({ statistics });
 };

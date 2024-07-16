@@ -100,7 +100,7 @@ const Bills = () => {
     >
       <Wrapper>
         <button
-          className="btn"
+          className="bill__add btn"
           onClick={() => openModal({ source: FETCH_TYPE.CREATE })}
         >
           Add Bill

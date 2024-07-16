@@ -5,7 +5,6 @@ import Wrapper from '../assets/wrappers/BillSearch';
 import BillSearchFormSelect from './BillSearchFormSelect';
 import { useState, useEffect } from 'react';
 import { useDashboardContext } from '../pages/Dashboard';
-import { formatDate } from '../utils/utils';
 
 const BillSearch = ({ onSearch }) => {
   const [searchInfo, setSearchInfo] = useState({
@@ -19,13 +18,7 @@ const BillSearch = ({ onSearch }) => {
   const { categories } = useDashboardContext();
 
   useEffect(() => {
-    if (searchInfo.billType === 'all') {
-      setSearchInfo((prevSearchInfo) => ({
-        ...prevSearchInfo,
-        category: '',
-        subcategory: '',
-      }));
-    } else if (searchInfo.billType === 'expense') {
+    if (searchInfo.billType === 'expense') {
       const filteredCategories = categories.filter(
         (category) => category.type === 'expense'
       );
@@ -121,7 +114,7 @@ const BillSearch = ({ onSearch }) => {
       <div className="search__time">
         <BillSearchFormSelect
           name="timeType"
-          options={[{ name: 'all' }, { name: 'month' }, { name: 'year' }]}
+          options={[{ name: 'month' }, { name: 'year' }]}
           showName={true}
           value={searchInfo.calendarType}
           onChange={handleCalenderTypeChange}

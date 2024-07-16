@@ -5,6 +5,7 @@ import {
   getBill,
   getAllBills,
   updateBill,
+  getBillStatistics,
 } from '../controllers/billController.js';
 import {
   validateBillInput,
@@ -20,5 +21,7 @@ router
   .get(validateBillID, getBill)
   .patch(validateBillInput, validateBillID, updateBill)
   .delete(validateBillID, deleteBill);
+
+router.route('/statistics').post(getBillStatistics);
 
 export default router;

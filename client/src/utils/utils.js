@@ -5,6 +5,12 @@ export const FETCH_TYPE = {
   DELETE: 'delete',
 };
 
+export const STATISTICS_SEARCH_TYPE = {
+  EXPENSE_CATEGORY: 'expense category',
+  EXPENSE_SUBCATEGORY: 'expense subcategory',
+  INCOME_CATEGORY: 'income category',
+};
+
 export const formatDate = (date) => {
   if (!date) return '';
   const year = date.getFullYear();

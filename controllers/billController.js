@@ -1,33 +1,15 @@
 import { StatusCodes } from 'http-status-codes';
 import Bill from '../models/Bill.js';
 import { BILL_TYPE } from '../utils/constants.js';
+import { getDatePeriod } from '../utils/dateUtils.js';
+import mongoose from 'mongoose';
 
 export const getAllBills = async (req, res) => {
   const { user } = req;
   const { date, calendarType, billType, category, subcategory, description } =
     req.query;
 
-  let startDate, endDate;
-  console.log('date', date);
-  if (date) {
-    if (calendarType === 'month') {
-      // 设置startDate为所选月份的第一天
-      startDate = new Date(date);
-      startDate.setDate(1); // 设置为这个月的第一天
-      // 设置endDate为所选月份的最后一天
-      endDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1, 0);
-    } else if (calendarType === 'year') {
-      // 设置startDate为所选年份的1月1日
-      startDate = new Date(date);
-      startDate.setMonth(0); // 设置为1月
-      startDate.setDate(1); // 设置为第一天
-      // 设置endDate为所选年份的12月31日
-      endDate = new Date(startDate.getFullYear() + 1, 0, 0);
-    } else {
-      startDate = new Date(date);
-      endDate = new Date(date);
-    }
-  }
+  const { startDate, endDate } = getDatePeriod(date, calendarType);
 
   const query = { user: user.uid };
 
@@ -99,4 +81,63 @@ export const deleteBill = async (req, res) => {
   const deleteBill = await Bill.findByIdAndDelete(id);
 
   res.status(StatusCodes.OK).json({ bill: deleteBill });
+};
+
+export const getBillStatistics = async (req, res) => {
+  const { user } = req;
+  const { date, calendarType, type } = req.body;
+
+  const { startDate, endDate } = getDatePeriod(date, calendarType);
+
+  let pipelineInfo = {};
+
+  if (type === 1) {
+    pipelineInfo = {
+      type: 'expense',
+      _id: 'category',
+      collection: 'categories',
+      as: 'categoryInfo',
+    };
+  } else if (type === 2) {
+    pipelineInfo = {
+      type: 'income',
+      _id: 'category',
+      collection: 'categories',
+      as: 'categoryInfo',
+    };
+  } else if (type === 3) {
+    pipelineInfo = {
+      type: 'expense',
+      _id: 'subcategory',
+      collection: 'subcategories',
+      as: 'subcategoryInfo',
+    };
+  }
+
+  const pipeline = [
+    {
+      $match: {
+        user: new mongoose.Types.ObjectId(user.uid),
+        type: pipelineInfo.type,
+        createAt: { $gte: startDate, $lte: endDate },
+      },
+    },
+    {
+      $group: { _id: '$' + pipelineInfo._id, totalAmount: { $sum: '$amount' } },
+    },
+    {
+      $lookup: {
+        from: pipelineInfo.collection,
+        localField: '_id',
+        foreignField: '_id',
+        as: pipelineInfo.as,
+      },
+    },
+    { $unwind: '$' + pipelineInfo.as },
+    { $project: { _id: `$${pipelineInfo.as}.name`, totalAmount: true } },
+  ];
+
+  const statistics = await Bill.aggregate(pipeline);
+
+  res.status(StatusCodes.OK).json({ statistics });
 };

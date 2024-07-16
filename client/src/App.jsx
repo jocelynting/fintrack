@@ -15,6 +15,7 @@ import { action as registerAction } from './pages/Register';
 import { loader as categoryLoader } from './pages/Dashboard';
 import { loader as billLoader } from './pages/Bills';
 import { action as billAction } from './pages/Bills';
+import { loader as statisticLoader } from './pages/Statistics';
 import { action as profileAction } from './pages/Profile';
 
 const router = createBrowserRouter([
@@ -51,6 +52,7 @@ const router = createBrowserRouter([
           {
             path: 'statistics',
             element: <Statistics />,
+            loader: statisticLoader,
           },
           {
             path: 'profile',

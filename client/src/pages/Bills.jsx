@@ -1,6 +1,5 @@
-import { BillForm, BillSearch, BillTable } from '../components';
+import { BillForm, BillSearch, BillTable, NoData } from '../components';
 import Wrapper from '../assets/wrappers/Bills';
-import NoData from '../assets/images/no-data.svg';
 import { useState, useEffect, useContext, createContext } from 'react';
 import { useLoaderData, useNavigate, redirect } from 'react-router-dom';
 import customFetch from '../utils/customFetch';
@@ -113,13 +112,7 @@ const Bills = () => {
         <BillSearch onSearch={handleSearch} />
         {bills.length === 0 ? (
           // If there are no bills, display the following message
-          <div className="bill__table-nodata">
-            <img className="nodata__image" src={NoData} alt="not found" />
-            <p className="nodata__content">
-              Oops! There is no data found. Please add a new bill to get
-              started.
-            </p>
-          </div>
+          <NoData />
         ) : (
           <BillTable bills={bills} onDelete={handleBillDelete} />
         )}

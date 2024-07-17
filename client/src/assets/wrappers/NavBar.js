@@ -10,6 +10,8 @@ const Wrapper = styled.nav`
   box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.1);
   background: var(--background-secondary-color);
 
+  z-index: 1;
+
   .nav__toggle-btn {
     background: transparent;
     border-color: transparent;

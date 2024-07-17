@@ -1,14 +1,11 @@
 import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
-const colors = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+import { generateColorsForChart } from '../utils/utils';
 
-const PieChartLegend = ({ data }) => {
+const PieChartLegend = ({ data, colors }) => {
   return (
-    <div>
+    <div className="legend__details">
       {data.map((entry, index) => (
-        <div
-          key={`legend-${index}`}
-          style={{ display: 'flex', alignItems: 'center', marginBottom: 5 }}
-        >
+        <div key={`legend-${index}`} className="legend__detail-item">
           <div
             style={{
               width: 10,
@@ -17,7 +14,7 @@ const PieChartLegend = ({ data }) => {
               marginRight: 5,
             }}
           />
-          <div>{`${entry.category} - $${entry.total}  ${entry.percentage}`}</div>
+          <p>{`${entry.category} - $${entry.total}  ${entry.percentage}`}</p>
         </div>
       ))}
     </div>
@@ -25,15 +22,17 @@ const PieChartLegend = ({ data }) => {
 };
 
 const PieChartComponent = ({ data }) => {
+  const colors = generateColorsForChart(data.length);
+
   return (
-    <PieChart width={500} height={500}>
+    <PieChart width={800} height={700}>
       <Pie
         data={data}
         dataKey="total"
         nameKey="category"
         cx="50%"
         cy="50%"
-        outerRadius={80}
+        outerRadius={150}
         fill="#8884d8"
         label={({ name, percentage }) => `${name}: ${percentage}`}
       >
@@ -42,7 +41,7 @@ const PieChartComponent = ({ data }) => {
         ))}
       </Pie>
       <Tooltip />
-      <Legend content={<PieChartLegend data={data} />} />
+      <Legend content={<PieChartLegend data={data} colors={colors} />} />
     </PieChart>
   );
 };

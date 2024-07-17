@@ -9,7 +9,7 @@ import { STATISTICS_SEARCH_TYPE } from '../utils/utils';
 const StatisticsSearch = ({ onSearch }) => {
   const [statisticsSearchInfo, setStatisticsSearchInfo] = useState({
     date: new Date(),
-    calendar: 'month',
+    calendar: 'year',
     type: STATISTICS_SEARCH_TYPE.EXPENSE_CATEGORY,
   });
 

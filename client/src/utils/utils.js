@@ -18,3 +18,30 @@ export const formatDate = (date) => {
   const day = String(date.getDate()).padStart(2, '0');
   return `${year}-${month}-${day}`;
 };
+
+export function generateColorsForChart(count) {
+  const pieChartColors = [
+    '#0088FE', // Blue
+    '#00C49F', // Green
+    '#FFBB28', // Yellow
+    '#FF8042', // Orange
+    '#7B68EE', // Medium Slate Blue
+    '#FF6347', // Tomato
+    '#40E0D0', // Turquoise
+    '#FFA07A', // Light Salmon
+    '#20B2AA', // Light Sea Green
+    '#87CEEB', // Sky Blue
+    '#32CD32', // Lime Green
+    '#FFD700', // Gold
+    '#FF4500', // Orange Red
+    '#6A5ACD', // Slate Blue
+    '#DA70D6', // Orchid
+    '#1E90FF', // Dodger Blue
+  ];
+
+  const colors = [];
+  for (let i = 0; i < count; i++) {
+    colors.push(pieChartColors[i % pieChartColors.length]);
+  }
+  return colors;
+}

@@ -10,7 +10,7 @@ export const loader = async ({ params }) => {
   try {
     const defaultParams = {
       date: new Date(),
-      calendarType: 'year',
+      calendar: 'year',
       type: STATISTICS_SEARCH_TYPE.EXPENSE_CATEGORY,
     };
     const finalParams = { ...defaultParams, ...params };

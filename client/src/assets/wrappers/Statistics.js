@@ -12,7 +12,7 @@ const Wrapper = styled.div`
     display: flex;
     justify-content: center;
     gap: 1rem;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
   }
 
   .charts__button {
@@ -35,6 +35,22 @@ const Wrapper = styled.div`
     background: var(--primary-700);
     box-shadow: var(--shadow-3);
     text-decoration: underline;
+  }
+
+  .charts__button:active {
+    transform: scale(0.98);
+  }
+
+  .legend__details {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .legend__detail-item {
+    grid-column: span 1;
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
   }
 `;
 

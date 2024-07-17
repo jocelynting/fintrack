@@ -1,5 +1,6 @@
 import Wrapper from '../assets/wrappers/NavBar';
 import Logo from './Logo';
+import Logout from './Logout';
 import { AiOutlineMenuUnfold } from 'react-icons/ai';
 import { useDashboardContext } from '../pages/Dashboard';
 
@@ -17,7 +18,7 @@ const NavBar = () => {
       </div>
       <div className="nav__right">
         <p>Theme</p>
-        <p>Logout</p>
+        <Logout />
       </div>
     </Wrapper>
   );

@@ -1,12 +1,7 @@
 import { NavBar, LeftSidebar, PopSidebar } from '../components';
 import Wrapper from '../assets/wrappers/Dashboard';
-import {
-  Outlet,
-  useLoaderData,
-  useNavigate,
-  useNavigation,
-} from 'react-router-dom';
-import { useState, createContext, useContext } from 'react';
+import { Outlet, useLoaderData, useNavigate } from 'react-router-dom';
+import { useState, createContext, useContext, useEffect } from 'react';
 import customFetch from '../utils/customFetch';
 import { toast } from 'react-toastify';
 
@@ -39,9 +34,34 @@ const Dashboard = () => {
 
   const { categories, user } = useLoaderData();
 
+  const [isAuthError, setIsAuthError] = useState(false);
+
+  const logoutUser = async () => {
+    await customFetch.get('/auth/logout');
+    toast.success('Logging out...');
+    navigate('/');
+  };
+
+  customFetch.interceptors.response.use(
+    (response) => {
+      return response;
+    },
+    (error) => {
+      if (error?.response?.status === 401) {
+        setIsAuthError(true);
+      }
+      return Promise.reject(error);
+    }
+  );
+
+  useEffect(() => {
+    if (!isAuthError) return;
+    logoutUser();
+  }, [isAuthError]);
+
   return (
     <DashboardContext.Provider
-      value={{ showSidebar, toggleSidebar, categories, user }}
+      value={{ showSidebar, toggleSidebar, categories, user, logoutUser }}
     >
       <Wrapper>
         <main className="dashboard">

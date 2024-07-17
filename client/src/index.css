@@ -76,7 +76,7 @@ html {
   --text-secondary-color: var(--grey-500);
 }
 
-.dark-theme {
+.dark__theme {
   --text-color: var(--dark-mode-text-color);
   --background-color: var(--dark-mode-bg-color);
   --text-secondary-color: var(--dark-mode-text-secondary-color);

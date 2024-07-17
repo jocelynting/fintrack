@@ -2,6 +2,7 @@ import { NavBar, LeftSidebar, PopSidebar } from '../components';
 import Wrapper from '../assets/wrappers/Dashboard';
 import { Outlet, useLoaderData, useNavigate } from 'react-router-dom';
 import { useState, createContext, useContext, useEffect } from 'react';
+import { checkDefaultTheme } from '../App';
 import customFetch from '../utils/customFetch';
 import { toast } from 'react-toastify';
 
@@ -34,6 +35,15 @@ const Dashboard = () => {
 
   const { categories, user } = useLoaderData();
 
+  const [isDarkTheme, setIsDarkTheme] = useState(checkDefaultTheme());
+
+  const toggleDarkTheme = () => {
+    const newDarkTheme = !isDarkTheme;
+    setIsDarkTheme(newDarkTheme);
+    document.body.classList.toggle('dark__theme', newDarkTheme);
+    localStorage.setItem('darkTheme', newDarkTheme);
+  };
+
   const [isAuthError, setIsAuthError] = useState(false);
 
   const logoutUser = async () => {
@@ -61,7 +71,14 @@ const Dashboard = () => {
 
   return (
     <DashboardContext.Provider
-      value={{ showSidebar, toggleSidebar, categories, user, logoutUser }}
+      value={{
+        showSidebar,
+        toggleSidebar,
+        categories,
+        user,
+        toggleDarkTheme,
+        logoutUser,
+      }}
     >
       <Wrapper>
         <main className="dashboard">

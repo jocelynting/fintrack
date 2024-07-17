@@ -18,6 +18,14 @@ import { action as billAction } from './pages/Bills';
 import { loader as statisticLoader } from './pages/Statistics';
 import { action as profileAction } from './pages/Profile';
 
+export const checkDefaultTheme = () => {
+  const isDarkTheme = localStorage.getItem('darkTheme') === 'true';
+  document.body.classList.toggle('dark__theme', isDarkTheme);
+  return isDarkTheme;
+};
+
+checkDefaultTheme();
+
 const router = createBrowserRouter([
   {
     path: '/',

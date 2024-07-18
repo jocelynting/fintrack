@@ -69,11 +69,19 @@ html {
   --dark-mode-text-color: #f0f0f0;
   --dark-mode-bg-secondary-color: #3f3f3f;
   --dark-mode-text-secondary-color: var(--grey-300);
+  --dark-mode-table-bg-color-even: #383838;
+  --dark-mode-table-bg-color-odd: #383838;
+  --dark-mode-table-date-bg-color: #2b2b2b;
+  --dark-mode-table-btn-bg-color: #f0f0f0;
 
   --background-color: var(--grey-50);
   --text-color: var(--grey-900);
   --background-secondary-color: var(--white);
   --text-secondary-color: var(--grey-500);
+  --table-bg-color-even: var(--primary-50);
+  --table-bg-color-odd: var(--primary-50);
+  --table-date-bg-color: var(--primary-100);
+  --table-btn-bg-color: var(--green-dark);
 }
 
 .dark__theme {
@@ -81,6 +89,10 @@ html {
   --background-color: var(--dark-mode-bg-color);
   --text-secondary-color: var(--dark-mode-text-secondary-color);
   --background-secondary-color: var(--dark-mode-bg-secondary-color);
+  --table-bg-color-even: var(--dark-mode-table-bg-color-even);
+  --table-bg-color-odd: var(--dark-mode-table-bg-color-odd);
+  --table-date-bg-color: var(--dark-mode-table-date-bg-color);
+  --table-btn-bg-color: var(--dark-mode-table-btn-bg-color);
 }
 
 body {

@@ -18,7 +18,7 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: white;
+    background-color: var(--background-color);
     padding: 0rem 3rem;
     border-radius: 5px;
   }
@@ -27,7 +27,7 @@ const Wrapper = styled.div`
     padding: 1rem 0;
     width: 60vw;
     max-width: var(--fixed-width);
-    background: var(--background-secondary-color);
+    background: var(--background-color);
   }
 
   .logo {

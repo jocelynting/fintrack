@@ -16,11 +16,11 @@ const Wrapper = styled.table`
   }
 
   .table__row:nth-child(odd) {
-    background-color: var(--grey-200);
+    background-color: var(--table-bg-color-odd);
   }
 
   .table__row:nth-child(even) {
-    background-color: var(--primary-100);
+    background-color: var(--table-bg-color-even);
   }
 
   td {
@@ -49,14 +49,14 @@ const Wrapper = styled.table`
   }
 
   .table__row-date {
-    background-color: var(--grey-300);
+    background-color: var(--table-date-bg-color);
     text-align: left;
     padding-left: 0.5rem;
   }
 
   .table__btn {
     background: transparent;
-    color: var(--green-dark);
+    color: var(--table-btn-bg-color);
     border: none;
     font-size: 1rem;
     padding: 2px 5px 0 5px;

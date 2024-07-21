@@ -10,6 +10,7 @@ export { default as BillForm } from './BillForm.jsx';
 export { default as BillCategorySelect } from './BillCategorySelect.jsx';
 export { default as BillSearch } from './BillSearch.jsx';
 export { default as BillTable } from './BillTable.jsx';
+export { default as PageIndex } from './PageIndex.jsx';
 export { default as StatisticsSearch } from './StatisticsSearch.jsx';
 export { default as PieChart } from './PieChart.jsx';
 export { default as BarChart } from './BarChart.jsx';

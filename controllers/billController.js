@@ -31,11 +31,23 @@ export const getAllBills = async (req, res) => {
     query.description = { $regex: description, $options: 'i' };
   }
 
+  // setup pagination
+  const page = Number(req.query.page) || 1;
+  const limit = Number(req.query.limit) || 10;
+  const skip = (page - 1) * limit;
+
   const bills = await Bill.find(query)
     .populate('category')
-    .populate('subcategory');
+    .populate('subcategory')
+    .skip(skip)
+    .limit(limit)
+    .sort({ createAt: -1 }); // sort by createAt in descending order
 
-  res.status(StatusCodes.OK).json({ bills });
+  const total = await Bill.countDocuments(query);
+  const totalPages = Math.ceil(total / limit);
+
+  // res.status(StatusCodes.OK).json({ bills });
+  res.status(StatusCodes.OK).json({ total, totalPages, page, bills });
 };
 
 export const createBill = async (req, res) => {

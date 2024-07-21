@@ -1,4 +1,10 @@
-import { BillForm, BillSearch, BillTable, NoData } from '../components';
+import {
+  BillForm,
+  BillSearch,
+  BillTable,
+  PageIndex,
+  NoData,
+} from '../components';
 import Wrapper from '../assets/wrappers/Bills';
 import { useState, useEffect, useContext, createContext } from 'react';
 import { useLoaderData, useNavigate, redirect } from 'react-router-dom';
@@ -40,6 +46,8 @@ export const action = async ({ data, source, navigate }) => {
 const BillContext = createContext();
 
 const Bills = () => {
+  const navigate = useNavigate();
+
   const [billFormVisible, setBillFormVisible] = useState({
     visible: false,
     source: '',
@@ -82,16 +90,34 @@ const Bills = () => {
     setBillFormData(initialBillFormData);
   };
 
-  const loaderData = useLoaderData();
-  const [bills, setBills] = useState(loaderData.bills);
-  const navigate = useNavigate();
+  const data = useLoaderData();
+  const [bills, setBills] = useState(data.bills);
+  const [totalPages, setTotalPages] = useState(0);
+  const [page, setPage] = useState(1);
+  const [searchValues, setSearchValues] = useState({});
 
   const handleSearch = async (searchInfo) => {
     const data = await loader({ params: searchInfo });
     setBills(data.bills);
+    setSearchValues(searchInfo);
+    setPage(1);
+  };
+
+  const pageChange = (page) => {
+    setPage(page);
   };
 
   useEffect(() => {}, [bills]);
+
+  useEffect(() => {
+    const fetchPageBills = async () => {
+      const searchParams = { ...searchValues, page };
+      const data = await loader({ params: searchParams });
+      setBills(data.bills);
+      setTotalPages(data.totalPages);
+    };
+    fetchPageBills();
+  }, [page, searchValues]);
 
   return (
     <BillContext.Provider
@@ -114,7 +140,16 @@ const Bills = () => {
           // If there are no bills, display the following message
           <NoData />
         ) : (
-          <BillTable bills={bills} onDelete={handleBillDelete} />
+          <div className="bills__table">
+            <BillTable bills={bills} onDelete={handleBillDelete} />
+            {totalPages > 1 && (
+              <PageIndex
+                page={page}
+                totalPages={totalPages}
+                pageChange={pageChange}
+              />
+            )}
+          </div>
         )}
       </Wrapper>
     </BillContext.Provider>

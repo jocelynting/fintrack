@@ -36,6 +36,10 @@ const Wrapper = styled.div`
     display: none;
   }
 
+  .react-date-picker__calendar button:hover {
+    background-color: var(--primary-100);
+  }
+
   .react-date-picker__calendar-button__icon {
     stroke: var(--text-color);
   }

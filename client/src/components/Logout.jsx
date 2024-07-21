@@ -14,12 +14,7 @@ const Logout = () => {
         className="btn logout"
         onClick={() => setShowLogout(!showLogout)}
       >
-        {user.avatar ? (
-          <img src={user.avatar} alt="avatar" className="img" />
-        ) : (
-          <FaUserCircle />
-        )}
-
+        <FaUserCircle />
         {user?.name}
         <FaCaretDown />
       </button>

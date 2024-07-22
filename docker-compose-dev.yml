@@ -1,0 +1,49 @@
+services:
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    ports:
+      - '27017:27017'
+    volumes:
+      - ./data:/data/db
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=jocelyn
+      - MONGO_INITDB_ROOT_PASSWORD=P0oWlauLqRjWWakW
+
+  api:
+    build:
+      dockerfile: Dockerfile.dev
+      context: .
+    container_name: api
+    volumes:
+      - /app/node_modules
+      - .:/app
+    environment:
+      - MONGO_URI=mongodb+srv://jocelyn:P0oWlauLqRjWWakW@fintrack.7nc8adn.mongodb.net/fintrack?retryWrites=true&w=majority&appName=fintrack
+      - JWT_SECRET=secret
+      - JWT_EXPIRES_IN=90d
+    # depends_on:
+    #   - mongo
+
+  client:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./client
+    container_name: client
+    volumes:
+      - /app/node_modules
+      - ./client:/app
+    # depends_on:
+    #   - api
+
+  nginx:
+    restart: always
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile.dev
+    ports:
+      - '80:80'
+    depends_on:
+      - api
+      - client

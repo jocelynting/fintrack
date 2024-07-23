@@ -1,0 +1,20 @@
+sudo: required
+services:
+  - docker
+
+# before_install:
+#   - docker build -t jocelyn/react-test -f ./client/Dockerfile.dev ./client
+
+# script:
+#   - docker run -e CI=true jocelyn/react-test npm test
+
+after_success:
+  - docker build -t "$DOCKER_ID"/fintrack-client ./client
+  - docker build -t "$DOCKER_ID"/fintrack-nginx ./nginx
+  - docker build -t "$DOCKER_ID"/fintrack-api .
+  # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take those images and push them to docker hub
+  - docker push "$DOCKER_ID"/fintrack-client
+  - docker push "$DOCKER_ID"/fintrack-nginx
+  - docker push "$DOCKER_ID"/fintrack-api

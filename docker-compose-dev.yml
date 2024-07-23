@@ -8,8 +8,8 @@ services:
       - ./data:/data/db
     restart: always
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=jocelyn
-      - MONGO_INITDB_ROOT_PASSWORD=P0oWlauLqRjWWakW
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
 
   api:
     build:
@@ -20,9 +20,9 @@ services:
       - /app/node_modules
       - .:/app
     environment:
-      - MONGO_URI=mongodb+srv://jocelyn:P0oWlauLqRjWWakW@fintrack.7nc8adn.mongodb.net/fintrack?retryWrites=true&w=majority&appName=fintrack
-      - JWT_SECRET=secret
-      - JWT_EXPIRES_IN=90d
+      - MONGO_URI=${MONGO_URL}
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_EXPIRES_IN=${JWT_EXPIRES_IN}
     # depends_on:
     #   - mongo
 

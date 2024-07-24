@@ -1,0 +1,49 @@
+services:
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    ports:
+      - '27017:27017'
+    volumes:
+      - ./data:/data/db
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
+
+  api:
+    build:
+      dockerfile: Dockerfile.dev
+      context: .
+    container_name: api
+    volumes:
+      - /app/node_modules
+      - .:/app
+    environment:
+      - MONGO_URI=$MONGO_URI
+      - JWT_SECRET=$JWT_SECRET
+      - JWT_EXPIRES_IN=$JWT_EXPIRES_IN
+    # depends_on:
+    #   - mongo
+
+  client:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./client
+    container_name: client
+    volumes:
+      - /app/node_modules
+      - ./client:/app
+    # depends_on:
+    #   - api
+
+  nginx:
+    restart: always
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile.dev
+    ports:
+      - '80:80'
+    depends_on:
+      - api
+      - client

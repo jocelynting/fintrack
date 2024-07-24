@@ -1,0 +1,21 @@
+services:
+  client:
+    image: 'jocelyntingting/fintrack-client'
+    mem_limit: 128m
+    hostname: client
+
+  api:
+    image: 'jocelyntingting/fintrack-api'
+    mem_limit: 128m
+    hostname: api
+    environment:
+      MONGO_URI: $MONGO_URI
+      JWT_SECRET: $JWT_SECRET
+      JWT_EXPIRES_IN: $JWT_EXPIRES_IN
+
+  nginx:
+    image: 'jocelyntingting/fintrack-nginx'
+    mem_limit: 128m
+    hostname: nginx
+    ports:
+      - '80:80'

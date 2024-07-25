@@ -9,7 +9,7 @@ services:
     mem_limit: 128m
     hostname: api
     environment:
-      MONGO_URI: 'mongodb+srv://jocelyn:P0oWlauLqRjWWakW@fintrack.7nc8adn.mongodb.net/fintrack?retryWrites=true&w=majority&appName=fintrack'
+      MONGO_URL: 'mongodb+srv://jocelyn:P0oWlauLqRjWWakW@fintrack.7nc8adn.mongodb.net/fintrack?retryWrites=true&w=majority&appName=fintrack'
       JWT_SECRET: 'secret'
       JWT_EXPIRES_IN: '90d'
 

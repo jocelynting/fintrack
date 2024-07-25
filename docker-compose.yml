@@ -9,9 +9,9 @@ services:
     mem_limit: 128m
     hostname: api
     environment:
-      MONGO_URL: 'mongodb+srv://jocelyn:P0oWlauLqRjWWakW@fintrack.7nc8adn.mongodb.net/fintrack?retryWrites=true&w=majority&appName=fintrack'
-      JWT_SECRET: 'secret'
-      JWT_EXPIRES_IN: '90d'
+      MONGO_URL: $MONGO_URL
+      JWT_SECRET: $JWT_SECRET
+      JWT_EXPIRES_IN: $JWT_EXPIRES_IN
 
   nginx:
     image: 'jocelyntingting/fintrack-nginx'

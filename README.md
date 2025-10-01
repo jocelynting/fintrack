@@ -2,8 +2,6 @@
 
 FinTrack is a personal finance management tool designed to help users track their expenses, manage budgets, and gain insights into their financial habits. It provides a user-friendly interface for logging transactions, categorizing expenses, and visualizing data through charts and reports.
 
-Visit [FinTrack](http://fintrack.us-east-2.elasticbeanstalk.com/).
-
 
 ## Tech Stack
 
